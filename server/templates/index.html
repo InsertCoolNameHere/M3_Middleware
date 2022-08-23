@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo GUI</title>
+  <!-- CSS dependencies -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/wireframe.css') }}">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript" src="http://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
+
+<body class="bg-light">
+
+  <div class="">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9 order-md-1">
+          <h4 class="mb-3 text-center border border-secondary"><b>Query Info</b></h4>
+          <form class="was-validated" action="#" method="post" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-md-6 mb-3"> <label for="qbounds">Query Bounds<br></label>
+                <i class="fa fa-question-circle-o" title="Enter polgon bounds." data-toggle="tooltip"></i>
+                <input type="text" class="form-control" id="qbounds" placeholder="Polygon" name="qbounds" value="" required>
+                <div class="invalid-feedback" style=""> Valid bounds is required. </div>
+              </div>
+              <div class="col-md-6 mb-3"> <label for="zlevel">Zoom Level<br></label>
+                <input type="number" class="form-control" id="zlevel" name="zlevel" placeholder="14 or 15 or 16 or more" value="" required>
+                <div class="invalid-feedback" style=""> Enter a zoom level </div>
+              </div>
+              <div class="col-md-6 mb-3"> <label for="sdate">Search Date (YYYY/MM/DD)<br></label>
+                <input type="text" class="form-control" id="sdate" name="sdate" placeholder="YYYY/MM/DD" value="" required>
+                <div class="invalid-feedback" style=""> Enter a Valid Date </div>
+              </div>
+              <div class="col-md-6 mb-3"> <label for="qband">Band Name<br></label>
+                <input type="text" class="form-control" id="qband" name="qband" placeholder="NDVI/ET/OPENET/LST" value="" required>
+                <div class="invalid-feedback" style=""> Enter a Valid Band </div>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-lg btn-block" type="submit" value="submit">Query</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous" style=""></script>
+</body>
+
+</html>

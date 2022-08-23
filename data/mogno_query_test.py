@@ -1,0 +1,1 @@
+db.getCollectionNames().forEach(k => print(db[k].getName(), db[k].count()))
