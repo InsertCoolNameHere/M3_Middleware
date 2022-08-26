@@ -47,6 +47,9 @@ def image_loader_gdal(filename):
 
 def load_and_save_tif(tifpath, timestamp, bandtype):
     tifobj, tiffasarray = image_loader_gdal(tifpath)
+    tif_transform = tifobj.GetGeoTransform()  ##sets same geotransform as input
+    tif_projection = tifobj.GetProjection()
+
 
     features_array = []
     feature = {}
@@ -60,7 +63,13 @@ def load_and_save_tif(tifpath, timestamp, bandtype):
     prop_dict["timestamp"] = timestamp
 
     features_array.append(feature)
-    fs_key = save_tiff_gdal(tiffasarray)
+
+    obj_dict = {}
+    obj_dict['tiffile'] = tiffasarray
+    obj_dict['tiftransform'] = tif_transform
+    obj_dict['tifprojection'] = tif_projection
+
+    fs_key = save_tiff_gdal(obj_dict)
     prop_dict["fs_key"] = fs_key
     prop_dict["bandtype"] = bandtype
 
@@ -113,8 +122,33 @@ def fetch_image(bounds_str, z, dateString, band):
     serialized_images = []
     for qr in query_results:
         img_ser = fs.get(qr['properties']['fs_key']).read()
-        img_obj = pickle.loads(img_ser)
+        obj_dict = pickle.loads(img_ser)
+
+        img_obj = obj_dict['tiffile']
+        img_transform = obj_dict['tiftransform']
+        img_projection = obj_dict['tifprojection']
+
         ds = gdal_array.OpenArray(img_obj)
+        ds.SetGeoTransform(img_transform)  ##sets same geotransform as input
+        ds.SetProjection(img_projection)
+
+        # Get raster statistics
+        #srcband = ds.GetRasterBand(1)
+        #stats = srcband.GetStatistics(True, True)
+        #print(stats)
+
+        '''driver = gdal.GetDriverByName("GTiff")
+        #(band, rows, cols) = img_obj.shape
+        (rows, cols) = img_obj.shape
+        outdata = driver.Create("op.tiff", cols, rows, 1, gdal.GDT_UInt16)
+
+        outdata.SetGeoTransform(img_transform)  ##sets same geotransform as input
+        outdata.SetProjection(img_projection)  ##sets same projection as input
+        band = outdata.GetRasterBand(1)
+
+        band.WriteArray(img_obj)'''
+        #print(type(ds))
+        #print(gdal.Info(ds))
         serialized_images.append(ds)
 
     return serialized_images
@@ -142,4 +176,4 @@ if __name__ == "__main__":
 
     dateString = "2020/05/08"
 
-    fetch_image(bounds, 14, dateString, "ET")
+    fetch_image(bounds, 18, dateString, "ET")
